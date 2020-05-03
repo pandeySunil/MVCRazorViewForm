@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<img src="@Url.Content("~/Content/ProfileImages")/@Model.ImageFilePath" alt="" height=100 width=200 />
+
 @using (Html.BeginForm("RegisterUser", "Register", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -29,8 +31,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.User.DOB, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.User.DOB, new { @Value = @Model.User.DOB, @class = "datepicker" })
-          
+            <input name="User.DOB" type="date" value="@Model.User.DOB" />
         </div>
     </div>
     @*<input type="file" name="uploadFile" />*@
@@ -38,21 +39,35 @@
     for (int i = 0; i < Model.Skills.Count; i++)
     {
         <div class="form-group">
-            @Html.LabelFor(m => @Model.Skills[i].SkillName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-               @Html.CheckBoxFor(x => @Model.Skills[i].Checked)
+                <span class="skill-lable">@Model.Skills[i].SkillName</span><span>@Html.CheckBoxFor(x => @Model.Skills[i].Checked)</span>
             </div>
         </div>
 
     }
 
+<select class="form-control valid" data-val="true" data-val-number="The field CountryId must be a number." id="User_CountryId" name="User.CountryId">
+    @*<option value="">--Select--</option>
+        <option value="1">India</option>
+        <option value="2">France</option>
+        <option value="3">USA</option>*@
+    @for (int i = 0; i < Model.conList.Count; i++)
+    {
     
-    <div class="form-group">
+            <option value="@Model.conList[i].Id">@Model.conList[i].CountryName</option>
+            
+      
+
+    }
+
+    conList
+</select>
+    @*<div class="form-group">
         @Html.LabelFor(m => m.User.Country, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.User.CountryId, Model.Countries, "--Select--", new { @class = "form-control" })
         </div>
-    </div>
+    </div>*@
     <div class="form-group">
         @Html.LabelFor(m => m.User.State, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -67,17 +82,22 @@
     </div>
     <div class="form-group">
         <div class="col-md-10">
-          <input type="submit" value="Submit"/>
+            <input type="submit" value="Submit" />
         </div>
     </div>
 
 }
 
+<style>
+    .skill-lable {
+        padding-right: 20px;
+    }
+</style>
 
 
 
 @section scripts{
-@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 
     <script>
         $(document).ready(function () {
@@ -93,12 +113,12 @@
 
                     //    Console.log(result[i].StateName);
                     //}
-                    
+
                     $.each(result.data, function (index, row) {
                         console.log(row.StateName);
                         console.log(row.Id);
                         $("#User_StateId").append("<option value='" + row.Id + "'>" + row.StateName + "</option>");
-                         @Model.Skills[1].Checked = true;
+
                     })
 
 

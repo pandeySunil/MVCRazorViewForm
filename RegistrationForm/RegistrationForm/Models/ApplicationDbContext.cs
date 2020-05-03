@@ -18,6 +18,7 @@ namespace RegistrationForm.Models
         public virtual DbSet<Skill> Skill { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Password> Passwords { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

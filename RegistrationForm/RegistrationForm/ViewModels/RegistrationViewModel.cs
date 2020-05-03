@@ -15,6 +15,9 @@ namespace RegistrationForm.ViewModels
         public SelectList Countries { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
         public string ImageFilePath { get; set; }
-
+        public List<Country> conList { get; set; }
+        public List<State> stateList { get; set; }
+        public string DOBString { get; set; }
+        public double noOfPages { get; set; }
     }
 }

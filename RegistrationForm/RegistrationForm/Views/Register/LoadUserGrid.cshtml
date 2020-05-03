@@ -1,0 +1,72 @@
+﻿@model List<RegistrationForm.ViewModels.RegistrationViewModel>
+
+<p>
+    @Html.ActionLink("Create New", "LoadRegistrationForm")
+</p>
+<table class="table">
+    <tr>
+        <th class="table-column" name="FullName"> @Html.ActionLink("Full Name", "OrderBy", new { sortOrder = "FullName_" + ViewBag.shortOrder, ColumnName = "FullName" })</th>
+        <th class="table-column" name="DateOfBirth"> @Html.ActionLink("DateOfBirth", "OrderBy", new { sortOrder = "DateOfBirth_" + ViewBag.shortOrder, ColumnName = "DateOfBirth" })</th>
+        <th class="table-column" name="EmailAddress">@Html.ActionLink("EmailAddress ", "OrderBy", new { sortOrder = "EmailAddress_" + ViewBag.shortOrder, ColumnName = "EmailAddress " })</th>
+        <th class="table-column" name="MobileNo"> @Html.ActionLink("MobileNo", "OrderBy", new { sortOrder = "MobileNo_" + ViewBag.shortOrder, ColumnName = "MobileNo" })</th>
+        <th class="table-column" name="Country">@Html.ActionLink("Country", "OrderBy", new { sortOrder = "Country_" + ViewBag.shortOrder, ColumnName = "Country" })</th>
+        <th class="table-column" name="State">@Html.ActionLink("State ", "OrderBy", new { sortOrder = "State_" + ViewBag.shortOrder, ColumnName = "State " })</th>
+        <th>Image</th>
+        <th>Action</th>
+
+    </tr>
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+
+        <tr>
+            <td>@Model[i].User.FullName</td>
+            <td>@Model[i].User.DOB</td>
+            <td>@Model[i].User.EmailAddress</td>
+            <td>@Model[i].User.MobileNo</td>
+            <td>@Model[i].User.Country.CountryName</td>
+            <td>@Model[i].User.State.StateName</td>
+
+            <td><img src="@Url.Content("~/Content/ProfileImages")/@Model[i].ImageFilePath" alt="" height=50 width=50 /></td>
+            <td>
+                @Html.ActionLink("Edit", "LoadRegistrationForm", new { UsrId = Model[i].User.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("<<", "getPrev", new { /* id=item.PrimaryKey */ }) <span>  </span>
+
+@for (int i = 1; i <= ViewBag.noOfPages; i++)
+{
+    @Html.ActionLink(Convert.ToString(i), "JumpOnPageNo", new { pageNo = i })<span>  </span>
+}
+@Html.ActionLink(">>", "getNext", new { /* id=item.PrimaryKey */ })
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*<script>
+            $(document).ready(function () {
+                $(".table-column").click(function () {
+                    $.get("/Register/OrderBy", { ColumnName:this.getAttribute("Name")}, function (result) {
+                    })
+                    console.log(this.getAttribute("Name"));
+                });
+
+                //var columns = $(".table-column")
+                //$.each(columns, function (index, row) {
+                //    //console.log(row.attr("Name"));
+                //    console.log(columns[0].getAttribute("Name"));
+
+                //})
+            });
+        </script>*@
+
+
+
+}
+

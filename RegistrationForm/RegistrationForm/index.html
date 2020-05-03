@@ -1,0 +1,17 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.js" integrity="sha256-ahJdZqtwInXbNkCvjC74On13W0FJSJ20qtfzaSLFHxE=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.2/crossroads.js" integrity="sha256-y+ROgpZ0pry33RMXxiB0+Sm0j4nxrTSDOXutP+U5h+Y=" crossorigin="anonymous"></script>
+
+<script>
+   function init() {
+    var productRoutes = crossroads.addRoute("product/{id}", function (id) {
+        goToProduct(id);
+    });
+
+    var default_routes = crossroads.addRoute("/{source}", function (source) {
+        goToPage(source);
+    });
+
+    crossroads.parse(document.location.pathname); /*This is where the parser function is called to match against the routes defined*/
+}
+
+</script>

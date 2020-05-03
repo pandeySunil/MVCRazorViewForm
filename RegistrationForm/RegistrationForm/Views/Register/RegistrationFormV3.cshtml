@@ -1,0 +1,151 @@
+﻿
+@model RegistrationForm.ViewModels.RegistrationViewModel
+
+<html>
+  
+    <body style="">
+        <h1>RegistrationForm V3</h1>
+        <div class="container body-content">
+
+            <img src="/Content/ProfileImages/@Model.ImageFilePath" alt="" height="100" width="200">
+
+            <form action="/Register/RegisterUser" enctype="multipart/form-data" method="post" novalidate="novalidate" data-ol-has-click-handler="">
+                <div class="validation-summary-valid text-danger" data-valmsg-summary="true">
+                    <ul>
+                        <li style="display:none"></li>
+                    </ul>
+                </div>    <div class="form-group">
+                    <label class="col-md-2 control-label" for="User_FullName">FullName</label>
+                    <div class="col-md-10">
+                        <input class="form-control" data-val="true" data-val-length="The field FullName must be a string with a maximum length of 100." data-val-length-max="100" data-val-required="The FullName field is required." id="User_FullName" name="User.FullName" type="text" value="@Model.User.FullName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="User_EmailAddress">EmailAddress</label>
+                    <div class="col-md-10">
+                        <input class="form-control valid" data-val="true" data-val-length="The field EmailAddress must be a string with a maximum length of 50." data-val-length-max="50" data-val-required="The EmailAddress field is required." id="User_EmailAddress" name="User.EmailAddress" type="text" value="@Model.User.EmailAddress">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="User_MobileNo">MobileNo</label>
+                    <div class="col-md-10">
+                        <input class="form-control" data-val="true" data-val-length="The field MobileNo must be a string with a maximum length of 25." data-val-length-max="25" data-val-required="The MobileNo field is required." id="User_MobileNo" name="User.MobileNo" type="text" value="@Model.User.MobileNo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="User_DOB">DOB</label>
+                    <div class="col-md-10">
+                        <input name="User.DOB" type="date"  value="@Model.DOBString">
+                        
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    <label class="col-md-2 control-label">JAVA</label>
+                    <div class="col-md-10">
+                        <input checked="checked" data-val="true" data-val-required="The Checked field is required." id="Skills_0__Checked" name="Skills[0].Checked" type="checkbox" value="true"><input name="Skills[0].Checked" type="hidden" value="false">
+                </div>
+                    </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">C#</label>
+                    <div class="col-md-10">
+                        <input checked="checked" data-val="true" data-val-required="The Checked field is required." id="Skills_1__Checked" name="Skills[1].Checked" type="checkbox" value="true"><input name="Skills[1].Checked" type="hidden" value="false">
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="">Skills</label>
+                <div class="skill-lable">
+                    @for (int i = 0; i < Model.Skills.Count; i++)
+                    {
+                    <span>@Model.Skills[i].SkillName</span>
+                     <span><input checked="checked" data-val="true" data-val-required="The Checked field is required." id="Skills_'@i'__Checked" name="Skills[0].Checked" type="checkbox" value="true"></span>
+    }
+  
+</div>
+            </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="User_Country">Country</label>
+                    <div class="col-md-10">
+                        <select class="form-control valid" data-val="true" data-val-number="The field CountryId must be a number." id="User_CountryId" name="User.CountryId">
+                            @for (int i = 0; i < Model.conList.Count; i++)
+                            {
+                                <option value="@Model.conList[i].Id">@Model.conList[i].CountryName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="User_State">State</label>
+                    <div class="col-md-10">
+                        <select class="form-control" data-val="true" data-val-number="The field StateId must be a number." id="User_StateId" name="User.StateId">
+                            @for (int i = 0; i < Model.stateList.Count; i++)
+                            {
+                                <option value="@Model.stateList[i].Id">@Model.stateList[i].StateName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="ImageFile">ImageFile</label>
+                    <div class="col-md-10">
+                        <input type="File" class="form-control" id="ImageFile" name="ImageFile" value="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
+            </div>
+    </body>
+    </html>
+
+<style>
+    .skill-lable {
+        padding-right: 20px;
+        margin-left:208px
+    }
+</style>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            console.log("jQ--Good-1");
+            $("#User_CountryId").change(function () {
+                $.get("/Register/GetStates", { ID: $("#User_CountryId").val() }, function (result) {
+                    console.log(result.data);
+                    console.log("jQ--Good-2");
+                    $("#User_StateId").empty();
+                    console.log("jQ--Good-3");
+
+                    //for (var i = 0; i < result.length; i++) {
+
+                    //    Console.log(result[i].StateName);
+                    //}
+
+                    $.each(result.data, function (index, row) {
+                        console.log(row.StateName);
+                        console.log(row.Id);
+                        $("#User_StateId").append("<option value='" + row.Id + "'>" + row.StateName + "</option>");
+
+                    })
+
+
+                })
+
+            });
+        });
+
+
+    </script>
+
+
+
+}
+
